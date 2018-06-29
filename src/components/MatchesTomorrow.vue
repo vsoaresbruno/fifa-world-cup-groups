@@ -1,12 +1,14 @@
 <template>
     <div class="container">
+        <h1>TOMORROW'S MATCHES</h1>
+
         <ul>
-            <li class="group" v-for="result in results" :key="result.id">{{ result.letter }}
-            <ul>
-                <li class="teams" v-for="team in result.ordered_teams" :key="team.id">{{ team.country }} ({{ team.fifa_code }})</li>
-            </ul>
+            <li class="group" v-for="match in matches" :key="match.id">
+                <span>{{ match.stage_name }} - {{ match.location }} {{ match.datetime | moment("ddd, ha") }}</span>
+                {{ match.away_team_country }} VS {{ match.home_team_country }}
             </li>
         </ul>
+
     </div>
 </template>
 
@@ -16,22 +18,24 @@ import API from '../services/api-class';
 
 export default {
 
-  name: 'GroupResults',
+    name: 'MatchesTomorrow',
     data: function (){
         return{
-            results: null
+            loading: false,
+            matches: null,
         }
     },
     methods: {
-       loadData: function () {
+
+        loadData: function () {
             let self = this;
-            const api = new API({url:'http://worldcup.sfg.io/teams'});
+            const api = new API({url:'https://worldcup.sfg.io/matches'});
 
-            api.createEntity({ name: 'group_results' })
+            api.createEntity({ name: 'tomorrow' })
 
-            api.endpoints.group_results.getAllResults()
+            api.endpoints.tomorrow.getAllResults()
             .then(({ data }) => {
-                self.results = data;
+                self.matches = data;
                 console.log(data)
             })
 
@@ -64,10 +68,12 @@ ul > li {
     color: #42b983;
     font-weight: bold;
     margin-bottom: 25px;
-    /* -webkit-box-shadow: 0px 0px 20px 1px rgba(166,166,166,1);
-    -moz-box-shadow: 0px 0px 20px 1px rgba(166,166,166,1);
-    box-shadow: 0px 0px 20px 1px rgba(166,166,166,1);
-    border-radius: 50px; */
+}
+
+.group span{
+    font-weight: normal;
+    display: block;
+    color: #333;
 }
 
 .teams {

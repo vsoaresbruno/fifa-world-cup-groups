@@ -1,11 +1,7 @@
 <template>
     <div class="container">
         <ul>
-            <li class="group" v-for="result in results" :key="result.id">{{ result.letter }}
-            <ul>
-                <li class="teams" v-for="team in result.ordered_teams" :key="team.id">{{ team.country }} ({{ team.fifa_code }})</li>
-            </ul>
-            </li>
+            <li class="group" v-for="result in results" :key="result.id">{{ result.country }} Wins: {{ result.wins }}</li>
         </ul>
     </div>
 </template>
@@ -16,20 +12,22 @@ import API from '../services/api-class';
 
 export default {
 
-  name: 'GroupResults',
+    name: 'Results',
     data: function (){
         return{
-            results: null
+            loading: false,
+            results: null,
         }
     },
     methods: {
-       loadData: function () {
+
+        loadData: function () {
             let self = this;
             const api = new API({url:'http://worldcup.sfg.io/teams'});
 
-            api.createEntity({ name: 'group_results' })
+            api.createEntity({ name: 'results' })
 
-            api.endpoints.group_results.getAllResults()
+            api.endpoints.results.getAllResults()
             .then(({ data }) => {
                 self.results = data;
                 console.log(data)

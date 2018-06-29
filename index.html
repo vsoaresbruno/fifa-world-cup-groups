@@ -3,10 +3,18 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>world-cup</title>
+    <title>World cup</title>
   </head>
   <body>
-    <div id="app"></div>
+      <div id="app">
+            <router-link to="/results">Results</router-link>
+            <router-link to="/group-results">Group Results</router-link>
+            <router-link to="/matches-tomorrow">Matches Tomorrow</router-link>
+          </p>
+          <!-- route outlet -->
+          <!-- component matched by the route will render here -->
+          <router-view></router-view>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
